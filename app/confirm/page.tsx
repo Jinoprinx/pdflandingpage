@@ -35,7 +35,7 @@ export default function ConfirmPage() {
                     setStatus("error")
                     setMessage(data.error || "Confirmation failed")
                 }
-            } catch (error) {
+            } catch (_) {
                 setStatus("error")
                 setMessage("Something went wrong. Please try again.")
             }
@@ -84,9 +84,9 @@ export default function ConfirmPage() {
                     {status === "success" && (
                         <CardContent className="space-y-6">
                             <div className="bg-primary/10 rounded-lg p-6 text-center">
-                                <h3 className="font-bold text-lg mb-2">What's Next?</h3>
+                                <h3 className="font-bold text-lg mb-2">What&apos;s Next?</h3>
                                 <p className="text-muted-foreground mb-4">
-                                    We've sent your free AI playbooks to your email inbox!
+                                    We&apos;ve sent your free AI playbooks to your email inbox!
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                                     <Button size="lg" className="gap-2">
