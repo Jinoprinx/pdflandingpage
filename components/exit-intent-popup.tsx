@@ -136,7 +136,7 @@ export function ExitIntentPopup() {
                                         <div className="text-5xl">✅</div>
                                         <h3 className="text-xl font-bold font-playfair text-[#1A1A1A]">Check Your Email!</h3>
                                         <p className="text-gray-600 leading-relaxed">
-                                            We've sent you a confirmation link. Click it to get your free playbooks.
+                                            We&apos;ve sent you a confirmation link. Click it to get your free playbooks.
                                         </p>
                                     </motion.div>
                                 ) : (

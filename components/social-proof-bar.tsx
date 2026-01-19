@@ -69,8 +69,8 @@ export function SocialProofBar() {
                                     <Star key={i} className="h-4 w-4 fill-primary text-primary" />
                                 ))}
                             </div>
-                            <p className="text-sm mb-3 italic">
-                                "These playbooks transformed how I approach AI in my business. Highly recommend!"
+                            <p className="text-sm mb-4 italic text-gray-700">
+                                &quot;These playbooks transformed how I approach AI in my business. Highly recommend!&quot;
                             </p>
                             <p className="text-xs font-medium">- Sarah K., E-commerce Founder</p>
                         </div>
@@ -82,7 +82,7 @@ export function SocialProofBar() {
                                 ))}
                             </div>
                             <p className="text-sm mb-3 italic">
-                                "Actionable insights that I could implement immediately. Game changer!"
+                                &quot;Actionable insights that I could implement immediately. Game changer!&quot;
                             </p>
                             <p className="text-xs font-medium">- Mike T., SaaS Entrepreneur</p>
                         </div>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
+import Link from "next/link"
 import { CheckCircle2, XCircle, Loader2, Download, ArrowRight } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -94,9 +95,9 @@ export default function ConfirmPage() {
                                         Open Email to Download
                                     </Button>
                                     <Button size="lg" variant="outline" asChild>
-                                        <a href="/">
+                                        <Link href="/">
                                             Back to Home <ArrowRight className="ml-2 h-4 w-4" />
-                                        </a>
+                                        </Link>
                                     </Button>
                                 </div>
                             </div>
@@ -121,10 +122,10 @@ export default function ConfirmPage() {
 
                             <div className="text-center text-sm text-muted-foreground">
                                 <p>
-                                    You'll receive weekly AI insights. Update your preferences{" "}
-                                    <a href="/preferences" className="text-primary underline">
+                                    You&apos;ll receive weekly AI insights. Update your preferences{" "}
+                                    <Link href="/preferences" className="text-primary underline">
                                         here
-                                    </a>
+                                    </Link>
                                     .
                                 </p>
                             </div>
@@ -134,7 +135,7 @@ export default function ConfirmPage() {
                     {status === "error" && (
                         <CardContent className="text-center">
                             <Button size="lg" asChild>
-                                <a href="/">Go Back to Home</a>
+                                <Link href="/">Go Back to Home</Link>
                             </Button>
                         </CardContent>
                     )}

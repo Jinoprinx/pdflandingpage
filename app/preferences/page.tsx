@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Link from "next/link"
 
 const preferencesSchema = z.object({
     topic_business_automation: z.boolean(),
@@ -58,7 +59,7 @@ export default function PreferencesPage() {
                 } else {
                     setError(data.error || "Failed to load preferences")
                 }
-            } catch (err) {
+            } catch {
                 setError("Something went wrong. Please try again.")
             } finally {
                 setLoading(false)
@@ -90,7 +91,7 @@ export default function PreferencesPage() {
             } else {
                 alert(data.error || "Failed to update preferences")
             }
-        } catch (err) {
+        } catch {
             alert("Something went wrong. Please try again.")
         } finally {
             setSaving(false)
@@ -122,7 +123,7 @@ export default function PreferencesPage() {
             } else {
                 alert(data.error || "Failed to unsubscribe")
             }
-        } catch (err) {
+        } catch {
             alert("Something went wrong. Please try again.")
         } finally {
             setSaving(false)
@@ -301,7 +302,7 @@ export default function PreferencesPage() {
 
                 <div className="text-center mt-6">
                     <Button variant="link" asChild>
-                        <a href="/">← Back to Home</a>
+                        <Link href="/">← Back to Home</Link>
                     </Button>
                 </div>
             </motion.div>

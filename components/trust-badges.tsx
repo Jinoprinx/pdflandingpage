@@ -1,4 +1,3 @@
-import { CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Shield, CheckCircle, Star } from "lucide-react"
 import Image from "next/image"

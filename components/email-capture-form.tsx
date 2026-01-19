@@ -100,7 +100,7 @@ export function EmailCaptureForm() {
                 <AlertTitle className="text-2xl font-bold text-[#1A1A1A] font-playfair">Check Your Email!</AlertTitle>
                 <AlertDescription className="mt-3 text-gray-700 leading-relaxed">
                   <p className="mb-2">
-                    We've sent you a <strong className="text-[#C5A059]">confirmation email</strong>. Please click the link to verify your email address and receive your free playbooks.
+                    We&apos;ve sent you a <strong className="text-[#C5A059]">confirmation email</strong>. Please click the link to verify your email address and receive your free playbooks.
                   </p>
                   <p className="text-sm text-gray-600">
                     Can't find it? <strong>Check spam</strong> or wait a few minutes.
