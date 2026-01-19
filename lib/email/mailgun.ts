@@ -3,24 +3,28 @@ import Mailgun from 'mailgun.js'
 
 const mailgun = new Mailgun(formData)
 
-const mg = mailgun.client({
+// Lazy load the client to prevent build-time errors if API keys are missing
+const getMgClient = () => {
+  const apiKey = process.env.MAILGUN_API_KEY || 'dummy_key_for_build'
+  return mailgun.client({
     username: 'api',
-    key: process.env.MAILGUN_API_KEY || '',
+    key: apiKey,
     url: process.env.MAILGUN_REGION === 'eu' ? 'https://api.eu.mailgun.net' : 'https://api.mailgun.net',
-})
+  })
+}
 
 const domain = process.env.MAILGUN_DOMAIN || ''
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'AI Mastery for Entrepreneurs'
 
 export async function sendConfirmationEmail(
-    to: string,
-    name: string,
-    confirmationToken: string
+  to: string,
+  name: string,
+  confirmationToken: string
 ) {
-    const confirmationUrl = `${appUrl}/confirm?token=${confirmationToken}`
+  const confirmationUrl = `${appUrl}/confirm?token=${confirmationToken}`
 
-    const htmlContent = `
+  const htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -56,7 +60,7 @@ export async function sendConfirmationEmail(
     </html>
   `
 
-    const textContent = `
+  const textContent = `
 Hi ${name},
 
 Thanks for signing up for ${siteName}! We're excited to have you join our community of entrepreneurs mastering AI.
@@ -72,39 +76,39 @@ If you didn't sign up for ${siteName}, you can safely ignore this email.
 © ${new Date().getFullYear()} ${siteName}. All rights reserved.
   `
 
-    try {
-        const result = await mg.messages.create(domain, {
-            from: `${siteName} <noreply@${domain}>`,
-            to: [to],
-            subject: `Please confirm your email address`,
-            text: textContent,
-            html: htmlContent,
-        })
-        return { success: true, messageId: result.id }
-    } catch (error) {
-        console.error('Mailgun error:', error)
-        return { success: false, error }
-    }
+  try {
+    const result = await mg.messages.create(domain, {
+      from: `${siteName} <noreply@${domain}>`,
+      to: [to],
+      subject: `Please confirm your email address`,
+      text: textContent,
+      html: htmlContent,
+    })
+    return { success: true, messageId: result.id }
+  } catch (error) {
+    console.error('Mailgun error:', error)
+    return { success: false, error }
+  }
 }
 
 export async function sendWelcomeEmail(
-    to: string,
-    name: string,
-    pdfChoice: string,
-    preferenceToken: string
+  to: string,
+  name: string,
+  pdfChoice: string,
+  preferenceToken: string
 ) {
-    const preferencesUrl = `${appUrl}/preferences?token=${preferenceToken}`
+  const preferencesUrl = `${appUrl}/preferences?token=${preferenceToken}`
 
-    const pdfLinks = {
-        all: ['Business Automation Playbook', 'AI Trends Report 2024', 'AI Education Guide'],
-        business: ['Business Automation Playbook'],
-        trends: ['AI Trends Report 2024'],
-        education: ['AI Education Guide'],
-    }
+  const pdfLinks = {
+    all: ['Business Automation Playbook', 'AI Trends Report 2024', 'AI Education Guide'],
+    business: ['Business Automation Playbook'],
+    trends: ['AI Trends Report 2024'],
+    education: ['AI Education Guide'],
+  }
 
-    const selectedPdfs = pdfLinks[pdfChoice as keyof typeof pdfLinks] || pdfLinks.all
+  const selectedPdfs = pdfLinks[pdfChoice as keyof typeof pdfLinks] || pdfLinks.all
 
-    const htmlContent = `
+  const htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -149,7 +153,7 @@ export async function sendWelcomeEmail(
     </html>
   `
 
-    const textContent = `
+  const textContent = `
 Hi ${name},
 
 Your email is confirmed! Thank you for joining our community of forward-thinking entrepreneurs.
@@ -171,26 +175,26 @@ Questions? Just reply to this email - we read every message!
 © ${new Date().getFullYear()} ${siteName}. All rights reserved.
   `
 
-    try {
-        const result = await mg.messages.create(domain, {
-            from: `${siteName} <noreply@${domain}>`,
-            to: [to],
-            subject: `🎉 Your AI Playbooks Are Ready!`,
-            text: textContent,
-            html: htmlContent,
-        })
-        return { success: true, messageId: result.id }
-    } catch (error) {
-        console.error('Mailgun error:', error)
-        return { success: false, error }
-    }
+  try {
+    const result = await mg.messages.create(domain, {
+      from: `${siteName} <noreply@${domain}>`,
+      to: [to],
+      subject: `🎉 Your AI Playbooks Are Ready!`,
+      text: textContent,
+      html: htmlContent,
+    })
+    return { success: true, messageId: result.id }
+  } catch (error) {
+    console.error('Mailgun error:', error)
+    return { success: false, error }
+  }
 }
 
 export async function sendPreferenceUpdateEmail(
-    to: string,
-    name: string
+  to: string,
+  name: string
 ) {
-    const htmlContent = `
+  const htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -218,16 +222,16 @@ export async function sendPreferenceUpdateEmail(
     </html>
   `
 
-    try {
-        const result = await mg.messages.create(domain, {
-            from: `${siteName} <noreply@${domain}>`,
-            to: [to],
-            subject: `Email Preferences Updated`,
-            html: htmlContent,
-        })
-        return { success: true, messageId: result.id }
-    } catch (error) {
-        console.error('Mailgun error:', error)
-        return { success: false, error }
-    }
+  try {
+    const result = await mg.messages.create(domain, {
+      from: `${siteName} <noreply@${domain}>`,
+      to: [to],
+      subject: `Email Preferences Updated`,
+      html: htmlContent,
+    })
+    return { success: true, messageId: result.id }
+  } catch (error) {
+    console.error('Mailgun error:', error)
+    return { success: false, error }
+  }
 }
