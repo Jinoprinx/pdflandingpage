@@ -51,6 +51,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        gold: "#C5A059",
+        cream: "#F9F9F7",
+      },
+      fontFamily: {
+        playfair: ['Playfair Display', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

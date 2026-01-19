@@ -4,10 +4,12 @@ import { PdfPreviewCards } from "@/components/pdf-preview-card"
 import { EmailCaptureForm } from "@/components/email-capture-form"
 import { TrustBadges } from "@/components/trust-badges"
 import { FaqSection } from "@/components/faq-section"
+import { NewsletterFooter } from "@/components/newsletter-footer"
+import { ExitIntentPopup } from "@/components/exit-intent-popup"
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-background/80">
+    <div className="min-h-screen bg-[#F9F9F7]">
       <main className="container mx-auto px-4 py-8 md:py-12">
         <HeroSection />
         <PdfPreviewCards />
@@ -16,6 +18,8 @@ export default function LandingPage() {
         <TrustBadges />
         <FaqSection />
       </main>
+      <NewsletterFooter />
+      <ExitIntentPopup />
     </div>
   )
 }
