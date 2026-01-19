@@ -63,7 +63,7 @@ export function TrustBadges() {
                     <Star key={i} className="h-4 w-4 fill-[#C5A059] text-[#C5A059]" />
                   ))}
                 </div>
-                <p className="italic mb-4 text-gray-700 leading-relaxed">"{testimonial.quote}"</p>
+                <p className="italic mb-4 text-gray-700 leading-relaxed">&quot;{testimonial.quote}&quot;</p>
                 <p className="text-sm font-medium text-[#C5A059]">— {testimonial.author}</p>
               </div>
             ))}

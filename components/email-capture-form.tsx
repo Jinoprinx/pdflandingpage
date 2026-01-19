@@ -103,7 +103,7 @@ export function EmailCaptureForm() {
                     We&apos;ve sent you a <strong className="text-[#C5A059]">confirmation email</strong>. Please click the link to verify your email address and receive your free playbooks.
                   </p>
                   <p className="text-sm text-gray-600">
-                    Can't find it? <strong>Check spam</strong> or wait a few minutes.
+                    Can&apos;t find it? <strong>Check spam</strong> or wait a few minutes.
                   </p>
                 </AlertDescription>
               </Alert>

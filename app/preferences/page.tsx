@@ -148,7 +148,7 @@ export default function PreferencesPage() {
                     </CardHeader>
                     <CardContent>
                         <Button asChild>
-                            <a href="/">Go to Home</a>
+                            <Link href="/">← Go to Home</Link>
                         </Button>
                     </CardContent>
                 </Card>
@@ -261,7 +261,7 @@ export default function PreferencesPage() {
                                                     </SelectContent>
                                                 </Select>
                                                 <FormDescription>
-                                                    We'll send you emails based on this schedule
+                                                    We&apos;ll send you emails based on this schedule
                                                 </FormDescription>
                                             </FormItem>
                                         )}
