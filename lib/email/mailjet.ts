@@ -17,6 +17,14 @@ interface ContactProperties {
     frequency?: string
 }
 
+interface MailjetResponse {
+    Data: Array<{
+        ID: number
+        [key: string]: unknown
+    }>
+    [key: string]: unknown
+}
+
 export async function addContactToList(
     email: string,
     properties: ContactProperties
@@ -32,7 +40,8 @@ export async function addContactToList(
             })
 
         // Update contact properties for segmentation
-        const contactId = (contactRequest.body as any).Data[0].ID
+        const body = contactRequest.body as unknown as MailjetResponse
+        const contactId = body.Data[0].ID
 
         await mailjet
             .put('contactdata', { version: 'v3' })
@@ -69,11 +78,12 @@ export async function updateContactProperties(
                 Email: email,
             })
 
-        if (!(contactRequest.body as any).Data || (contactRequest.body as any).Data.length === 0) {
+        const body = contactRequest.body as unknown as MailjetResponse
+        if (!body.Data || body.Data.length === 0) {
             return { success: false, error: 'Contact not found' }
         }
 
-        const contactId = (contactRequest.body as any).Data[0].ID
+        const contactId = body.Data[0].ID
 
         const dataToUpdate = []
         if (properties.company !== undefined) {
@@ -117,11 +127,12 @@ export async function removeContactFromList(email: string) {
                 Email: email,
             })
 
-        if (!(contactRequest.body as any).Data || (contactRequest.body as any).Data.length === 0) {
+        const body = contactRequest.body as unknown as MailjetResponse
+        if (!body.Data || body.Data.length === 0) {
             return { success: false, error: 'Contact not found' }
         }
 
-        const contactId = (contactRequest.body as any).Data[0].ID
+        const contactId = body.Data[0].ID
 
         await mailjet
             .put('contact', { version: 'v3' })

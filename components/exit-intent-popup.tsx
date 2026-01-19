@@ -120,7 +120,7 @@ export function ExitIntentPopup() {
 
                             <CardHeader className="text-center pb-4 pt-8">
                                 <div className="text-5xl mb-4">⏳</div>
-                                <CardTitle className="text-3xl font-playfair text-[#1A1A1A]">Wait! Don't Miss Out!</CardTitle>
+                                <CardTitle className="text-3xl font-playfair text-[#1A1A1A]">Wait! Don&apos;t Miss Out!</CardTitle>
                                 <CardDescription className="text-base mt-3 text-gray-600 leading-relaxed">
                                     Get instant access to our <strong className="text-[#C5A059]">3 Free AI Playbooks</strong> used by 1,000+ entrepreneurs
                                 </CardDescription>

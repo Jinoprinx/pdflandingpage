@@ -144,7 +144,7 @@ export function trackEvent(event: {
     source: string
     variant?: string
     subscriber_email?: string
-    metadata?: Record<string, any>
+    metadata?: Record<string, unknown>
 }) {
     const analyticsEvent: AnalyticsEvent = {
         id: analyticsEvents.length + 1,

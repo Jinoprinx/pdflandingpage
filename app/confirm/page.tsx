@@ -35,7 +35,7 @@ export default function ConfirmPage() {
                     setStatus("error")
                     setMessage(data.error || "Confirmation failed")
                 }
-            } catch (_) {
+            } catch {
                 setStatus("error")
                 setMessage("Something went wrong. Please try again.")
             }

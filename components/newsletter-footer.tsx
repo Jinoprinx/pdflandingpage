@@ -4,6 +4,7 @@ import { useState } from "react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import Link from "next/link"
 import { Mail, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -139,14 +140,14 @@ export function NewsletterFooter() {
                             <h4 className="font-bold mb-3 text-[#C5A059] uppercase tracking-wider text-sm">Quick Links</h4>
                             <ul className="space-y-2 text-sm text-gray-400">
                                 <li>
-                                    <a href="/#email-form" className="hover:text-[#D80000] transition-colors">
+                                    <Link href="/#email-form" className="hover:text-[#D80000] transition-colors">
                                         Get Free Playbooks
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/preferences" className="hover:text-[#D80000] transition-colors">
+                                    <Link href="/preferences" className="hover:text-[#D80000] transition-colors">
                                         Email Preferences
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

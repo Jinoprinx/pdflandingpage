@@ -5,7 +5,6 @@ import { Users, TrendingUp, Star } from "lucide-react"
 import { motion } from "framer-motion"
 
 export function SocialProofBar() {
-    const [subscriberCount, setSubscriberCount] = useState(0)
     const [displayCount, setDisplayCount] = useState(1000) // Default fallback
 
     useEffect(() => {
@@ -13,7 +12,6 @@ export function SocialProofBar() {
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {
-                    setSubscriberCount(data.count)
                     setDisplayCount(data.displayCount || data.count)
                 }
             })
