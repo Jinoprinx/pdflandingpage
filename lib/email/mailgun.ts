@@ -77,7 +77,7 @@ If you didn't sign up for ${siteName}, you can safely ignore this email.
   `
 
   try {
-    const result = await mg.messages.create(domain, {
+    const result = await getMgClient().messages.create(domain, {
       from: `${siteName} <noreply@${domain}>`,
       to: [to],
       subject: `Please confirm your email address`,
@@ -176,7 +176,7 @@ Questions? Just reply to this email - we read every message!
   `
 
   try {
-    const result = await mg.messages.create(domain, {
+    const result = await getMgClient().messages.create(domain, {
       from: `${siteName} <noreply@${domain}>`,
       to: [to],
       subject: `🎉 Your AI Playbooks Are Ready!`,
@@ -223,7 +223,7 @@ export async function sendPreferenceUpdateEmail(
   `
 
   try {
-    const result = await mg.messages.create(domain, {
+    const result = await getMgClient().messages.create(domain, {
       from: `${siteName} <noreply@${domain}>`,
       to: [to],
       subject: `Email Preferences Updated`,
