@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import { z } from "zod"
@@ -21,12 +21,8 @@ const preferencesSchema = z.object({
     frequency: z.enum(["daily", "weekly", "monthly"]),
 })
 
-import { Suspense } from "react"
-// ... imports
-
 function PreferencesPageContent() {
     const searchParams = useSearchParams()
-    // ... rest of the component logic (lines 26-309 of original function)
     const token = searchParams.get("token")
 
     const [loading, setLoading] = useState(true)
