@@ -21,8 +21,12 @@ const preferencesSchema = z.object({
     frequency: z.enum(["daily", "weekly", "monthly"]),
 })
 
-export default function PreferencesPage() {
+import { Suspense } from "react"
+// ... imports
+
+function PreferencesPageContent() {
     const searchParams = useSearchParams()
+    // ... rest of the component logic (lines 26-309 of original function)
     const token = searchParams.get("token")
 
     const [loading, setLoading] = useState(true)
@@ -307,5 +311,13 @@ export default function PreferencesPage() {
                 </div>
             </motion.div>
         </div>
+    )
+}
+
+export default function PreferencesPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}>
+            <PreferencesPageContent />
+        </Suspense>
     )
 }
