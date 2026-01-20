@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   eslint: {
     // ⚠️ This will allow production builds to succeed
     // even if there are ESLint errors.

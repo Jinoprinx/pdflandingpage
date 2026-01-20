@@ -2,30 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
-
 @layer base {
   :root {
-    --background: 38 12% 97%; /* #F9F9F7 - Cream */
-    --foreground: 0 0% 10%; /* #1A1A1A - Dark */
-    --card: 0 0% 100%; /* White */
+    --background: 38 12% 97%;
+    /* #F9F9F7 - Cream */
+    --foreground: 0 0% 10%;
+    /* #1A1A1A - Dark */
+    --card: 0 0% 100%;
+    /* White */
     --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 10%;
-    --primary: 0 100% 43%; /* #D80000 - Red */
+    --primary: 0 100% 43%;
+    /* #D80000 - Red */
     --primary-foreground: 0 0% 100%;
-    --secondary: 38 40% 55%; /* #C5A059 - Gold */
+    --secondary: 38 40% 55%;
+    /* #C5A059 - Gold */
     --secondary-foreground: 0 0% 0%;
     --muted: 38 12% 95%;
     --muted-foreground: 0 0% 45%;
-    --accent: 38 40% 55%; /* Gold */
+    --accent: 38 40% 55%;
+    /* Gold */
     --accent-foreground: 0 0% 10%;
     --destructive: 0 100% 43%;
     --destructive-foreground: 0 0% 100%;
-    --border: 38 40% 55% / 0.2; /* Gold with opacity */
+    --border: 38 40% 55% / 0.2;
+    /* Gold with opacity */
     --input: 38 12% 90%;
     --ring: 38 40% 55%;
     --radius: 1rem;
+
+    /* Font variables mapped from Next.js font loader */
+    --font-inter: 'Inter', sans-serif;
+    --font-playfair: 'Playfair Display', serif;
   }
 }
 
@@ -33,114 +42,55 @@
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-[#F9F9F7] text-[#1A1A1A] antialiased;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-playfair), serif;
   }
 }
 
 @layer utilities {
   .font-playfair {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-playfair), serif;
   }
-  
+
   /* Animations */
   @keyframes fadeIn {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
   }
-  
+
   @keyframes slideUp {
     from {
       opacity: 0;
       transform: translateY(2rem);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   .animate-fadeIn {
     animation: fadeIn 0.8s ease-out forwards;
   }
-  
+
   .animate-slideUp {
     animation: slideUp 1s ease-out forwards;
   }
-}
-
-/* Define CSS variables for light mode */
-:root {
-  --background: 0 0% 100%; /* white */
-  --foreground: 222.2 84% 4.9%; /* slate-900 */
-  --card: 0 0% 100%; /* white */
-  --card-foreground: 222.2 84% 4.9%; /* slate-900 */
-  --popover: 0 0% 100%; /* white */
-  --popover-foreground: 222.2 84% 4.9%; /* slate-900 */
-  --primary: 222.2 47.4% 11.2%; /* slate-800 */
-  --primary-foreground: 210 40% 98%; /* slate-50 */
-  --secondary: 210 40% 96.1%; /* slate-100 */
-  --secondary-foreground: 222.2 47.4% 11.2%; /* slate-800 */
-  --muted: 210 40% 96.1%; /* slate-100 */
-  --muted-foreground: 215.4 16.3% 46.9%; /* slate-500 */
-  --accent: 210 40% 96.1%; /* slate-100 */
-  --accent-foreground: 222.2 47.4% 11.2%; /* slate-800 */
-  --destructive: 0 84.2% 60.2%; /* red-500 */
-  --destructive-foreground: 210 40% 98%; /* slate-50 */
-  --border: 214.3 31.8% 91.4%; /* slate-200 */
-  --input: 214.3 31.8% 91.4%; /* slate-200 */
-  --ring: 222.2 84% 4.9%; /* slate-900 */
-  --radius: 0.5rem;
-  color-scheme: light;
-}
-
-/* Define CSS variables for dark mode */
-.dark {
-  --background: 222.2 84% 4.9%; /* slate-900 */
-  --foreground: 210 40% 98%; /* slate-50 */
-  --card: 222.2 84% 4.9%; /* slate-900 */
-  --card-foreground: 210 40% 98%; /* slate-50 */
-  --popover: 222.2 84% 4.9%; /* slate-900 */
-  --popover-foreground: 210 40% 98%; /* slate-50 */
-  --primary: 210 40% 98%; /* slate-50 */
-  --primary-foreground: 222.2 47.4% 11.2%; /* slate-800 */
-  --secondary: 217.2 32.6% 17.5%; /* slate-800 */
-  --secondary-foreground: 210 40% 98%; /* slate-50 */
-  --muted: 217.2 32.6% 17.5%; /* slate-800 */
-  --muted-foreground: 215 20.2% 65.1%; /* slate-400 */
-  --accent: 217.2 32.6% 17.5%; /* slate-800 */
-  --accent-foreground: 210 40% 98%; /* slate-50 */
-  --destructive: 0 62.8% 30.6%; /* red-950 */
-  --destructive-foreground: 210 40% 98%; /* slate-50 */
-  --border: 217.2 32.6% 17.5%; /* slate-800 */
-  --input: 217.2 32.6% 17.5%; /* slate-800 */
-  --ring: 212.7 26.8% 83.9%; /* slate-400 */
-  color-scheme: dark;
-}
-
-/* Set base styles for html and body */
-html {
-  height: 100%;
-}
-
-body {
-  height: 100%;
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Add spacing between main sections */
-main > * + * {
-  margin-top: 4rem;
 }
