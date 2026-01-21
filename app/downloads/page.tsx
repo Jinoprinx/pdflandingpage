@@ -54,7 +54,6 @@ export default function DownloadsPage() {
                                 description={resource.description}
                                 pages={resource.pages}
                                 format="PDF"
-                                className="h-full"
                                 ctaText="Download PDF"
                                 downloadUrl={resource.downloadUrl}
                             />
