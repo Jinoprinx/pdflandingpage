@@ -5,8 +5,7 @@ import {
     getPreferences,
     trackEvent,
 } from '@/lib/db/queries'
-import { sendWelcomeEmail } from '@/lib/email/mailgun'
-import { addContactToList } from '@/lib/email/mailjet'
+import { sendWelcomeEmail, addContactToList } from '@/lib/email/brevo'
 
 export async function GET(request: NextRequest) {
     try {

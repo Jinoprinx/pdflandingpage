@@ -1,6 +1,7 @@
 "use client"
 
 import { ArrowRight, TrendingUp, Clock, Users } from "lucide-react"
+import Link from "next/link"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -14,6 +15,7 @@ export function PdfPreviewCards() {
       image: "/images/bus.png",
       bullets: ["Automate invoicing in 15 mins.", "Free audit template included."],
       cta: "Save Time",
+      url: "/lead-magnets/business-automation",
     },
     {
       title: "AI Trends",
@@ -22,6 +24,7 @@ export function PdfPreviewCards() {
       image: "/images/ai.png",
       bullets: ["7 under-the-radar AI tools.", "Profit strategies for each trend."],
       cta: "Stay Ahead",
+      url: "/lead-magnets/ai-guide",
     },
     {
       title: "AI Education",
@@ -30,6 +33,7 @@ export function PdfPreviewCards() {
       image: "/images/edu.png",
       bullets: ["12 no-code AI project ideas.", "Student success case studies."],
       cta: "Train Talent",
+      url: "/lead-magnets/ai-education",
     },
   ]
 
@@ -80,17 +84,14 @@ export function PdfPreviewCards() {
               </CardContent>
               <CardFooter>
                 <Button
+                  asChild
                   variant="outline"
                   className="w-full group/btn border-[#C5A059]/30 hover:border-[#C5A059] hover:bg-[#C5A059]/5 transition-all"
-                  onClick={() => {
-                    const formElement = document.getElementById("email-form")
-                    if (formElement) {
-                      formElement.scrollIntoView({ behavior: "smooth" })
-                    }
-                  }}
                 >
-                  <span>{card.cta}</span>
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                  <Link href={card.url}>
+                    <span>{card.cta}</span>
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </CardFooter>
             </Card>

@@ -1,6 +1,5 @@
 "use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -12,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { CheckCircle2 } from "lucide-react"
 import { SocialProofBar } from "./social-proof-bar"
+import { useAbTest } from "@/hooks/use-ab-test"
+import { Analytics } from "@/lib/analytics/tracker"
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Please enter your name" }),
@@ -23,9 +24,53 @@ const formSchema = z.object({
   pdf_choice: z.string().min(1, { message: "Please select which PDF you want" }),
 })
 
-export function EmailCaptureForm() {
+interface ABVariant {
+  title?: string
+  description?: string
+  ctaText?: string
+}
+
+interface EmailCaptureFormProps {
+  title?: string
+  description?: string
+  defaultPdf?: string
+  source?: string
+  showSocialProof?: boolean
+  className?: string
+  abTest?: {
+    id: string
+    variants: Record<string, ABVariant>
+  }
+}
+
+export function EmailCaptureForm({
+  title = "Get Your Free AI Playbooks",
+  description = "Fill out the form below to receive instant access",
+  defaultPdf = "",
+  source = "main_form",
+  showSocialProof = true,
+  className,
+  abTest
+}: EmailCaptureFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // A/B Testing Logic
+  const variantKey = useAbTest(
+    abTest?.id || "",
+    abTest ? Object.keys(abTest.variants) : []
+  )
+
+  const activeVariant = abTest && variantKey ? abTest.variants[variantKey] : null
+
+  const displayTitle = activeVariant?.title || title
+  const displayDescription = activeVariant?.description || description
+  // const displayCta = activeVariant?.ctaText || "Get Instant Access →" // Logic to pass to button if needed
+
+  useEffect(() => {
+    // Track form view once on mount
+    Analytics.trackFormView(source, variantKey || undefined)
+  }, [source, variantKey])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,7 +81,7 @@ export function EmailCaptureForm() {
       role: "",
       primary_interest: "",
       how_heard: "",
-      pdf_choice: "",
+      pdf_choice: defaultPdf,
     },
   })
 
@@ -49,7 +94,7 @@ export function EmailCaptureForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          source: "main_form",
+          source: source,
         }),
       })
 
@@ -59,18 +104,10 @@ export function EmailCaptureForm() {
         setIsSubmitted(true)
 
         // Track analytics
-        fetch("/api/analytics", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            event_type: "form_submit",
-            source: "main_form",
-            subscriber_email: values.email,
-            metadata: {
-              pdf_choice: values.pdf_choice,
-            },
-          }),
+        Analytics.trackFormSubmit(source, values.email, variantKey || undefined, {
+          pdf_choice: values.pdf_choice,
         })
+
       } else {
         alert(data.error || "Something went wrong. Please try again.")
       }
@@ -83,15 +120,15 @@ export function EmailCaptureForm() {
   }
 
   return (
-    <section className="py-12 md:py-16" id="email-form">
+    <section className={`py-12 md:py-16 ${className}`} id="email-form">
       <div className="max-w-3xl mx-auto">
         {/* Social Proof Bar */}
-        <SocialProofBar />
+        {showSocialProof && <SocialProofBar />}
 
         <Card className="border-2 border-gray-100 shadow-[0_20px_60px_rgba(197,160,89,0.15)] rounded-3xl">
           <CardHeader className="text-center pb-6">
-            <CardTitle className="text-3xl md:text-4xl font-playfair text-[#1A1A1A]">Get Your Free AI Playbooks</CardTitle>
-            <CardDescription className="text-lg mt-3 text-gray-600">Fill out the form below to receive instant access</CardDescription>
+            <CardTitle className="text-3xl md:text-4xl font-playfair text-[#1A1A1A]">{displayTitle}</CardTitle>
+            <CardDescription className="text-lg mt-3 text-gray-600">{displayDescription}</CardDescription>
           </CardHeader>
           <CardContent>
             {isSubmitted ? (

@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { Analytics } from "@/lib/analytics/tracker"
 
 const emailSchema = z.object({
     email: z.string().email({ message: "Please enter a valid email" }),
@@ -68,15 +69,7 @@ export function ExitIntentPopup() {
                 setIsSubmitted(true)
 
                 // Track analytics
-                fetch("/api/analytics", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        event_type: "form_submit",
-                        source: "exit_popup",
-                        subscriber_email: values.email,
-                    }),
-                })
+                Analytics.trackFormSubmit("exit_popup", values.email)
             } else {
                 alert(data.error || "Something went wrong. Please try again.")
             }

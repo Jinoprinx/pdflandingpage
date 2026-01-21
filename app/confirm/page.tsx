@@ -17,15 +17,28 @@ function ConfirmPageContent() {
     const [alreadyConfirmed, setAlreadyConfirmed] = useState(false)
 
     useEffect(() => {
-        if (!token) {
+        // Robust token extraction
+        let effectiveToken = token
+        if (!effectiveToken) {
+            // Handle case where URL might be malformed like ?token?value
+            const params = new URLSearchParams(window.location.search)
+            for (const key of params.keys()) {
+                if (key.startsWith('token?')) {
+                    effectiveToken = key.split('?')[1]
+                    break
+                }
+            }
+        }
+
+        if (!effectiveToken) {
             setStatus("error")
-            setMessage("No confirmation token provided")
+            setMessage("No confirmation token provided. Please check the link in your email.")
             return
         }
 
         async function confirmEmail() {
             try {
-                const response = await fetch(`/api/confirm?token=${token}`)
+                const response = await fetch(`/api/confirm?token=${effectiveToken}`)
                 const data = await response.json()
 
                 if (response.ok) {

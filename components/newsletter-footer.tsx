@@ -9,6 +9,7 @@ import { Mail, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { Analytics } from "@/lib/analytics/tracker"
 
 const emailSchema = z.object({
     email: z.string().email({ message: "Please enter a valid email" }),
@@ -47,15 +48,7 @@ export function NewsletterFooter() {
                 form.reset()
 
                 // Track analytics
-                fetch("/api/analytics", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        event_type: "form_submit",
-                        source: "footer",
-                        subscriber_email: values.email,
-                    }),
-                })
+                Analytics.trackFormSubmit("footer", values.email)
             } else {
                 alert(data.error || "Something went wrong. Please try again.")
             }

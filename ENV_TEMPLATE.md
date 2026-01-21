@@ -2,21 +2,12 @@
 # Copy this file to .env.local and fill in your actual values
 
 # ============================================
-# MAILGUN CONFIGURATION (Transactional Emails)
+# BREVO CONFIGURATION (Transactional + Marketing)
 # ============================================
-# Get your API key from: https://app.mailgun.com/app/account/security/api_keys
-MAILGUN_API_KEY=your_mailgun_api_key_here
-# Your verified domain or sandbox domain
-MAILGUN_DOMAIN=sandboxXXXX.mailgun.org
-# Use 'us' for US region or 'eu' for EU region
-MAILGUN_REGION=us
-
-# ============================================
-# MAILJET CONFIGURATION (Email Marketing)
-# ============================================
-# Get your API keys from: https://app.mailjet.com/account/api_keys
-MAILJET_API_KEY=your_mailjet_api_key_here
-MAILJET_SECRET_KEY=your_mailjet_secret_key_here
+# Get your API key from: https://app.brevo.com/settings/keys/api
+BREVO_API_KEY=your_brevo_api_key
+# Ensure you have a sender authenticated in Brevo that matches
+# the domain of your NEXT_PUBLIC_APP_URL, or configure a specific sender email.
 
 # ============================================
 # APPLICATION CONFIGURATION

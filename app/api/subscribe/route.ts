@@ -6,7 +6,7 @@ import {
     createDefaultPreferences,
     trackEvent,
 } from '@/lib/db/queries'
-import { sendConfirmationEmail } from '@/lib/email/mailgun'
+import { sendConfirmationEmail } from '@/lib/email/brevo'
 
 const subscribeSchema = z.object({
     email: z.string().email('Please enter a valid email'),

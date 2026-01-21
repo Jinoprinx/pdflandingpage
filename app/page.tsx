@@ -6,6 +6,7 @@ import { TrustBadges } from "@/components/trust-badges"
 import { FaqSection } from "@/components/faq-section"
 import { NewsletterFooter } from "@/components/newsletter-footer"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
+import { InlineNewsletterCTA } from "@/components/inline-newsletter-cta"
 
 export default function LandingPage() {
   return (
@@ -14,6 +15,12 @@ export default function LandingPage() {
         <HeroSection />
         <PdfPreviewCards />
         <FeaturesGrid />
+        <InlineNewsletterCTA
+          title="Don't have time to implement this yourself?"
+          description="Get our step-by-step automation cheat sheet delivered to your inbox."
+          ctaText="Get the Cheat Sheet"
+          source="homepage_inline"
+        />
         <EmailCaptureForm />
         <TrustBadges />
         <FaqSection />

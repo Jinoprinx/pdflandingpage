@@ -6,8 +6,7 @@ import {
     updatePreferences,
     unsubscribeSubscriber,
 } from '@/lib/db/queries'
-import { updateContactProperties, removeContactFromList } from '@/lib/email/mailjet'
-import { sendPreferenceUpdateEmail } from '@/lib/email/mailgun'
+import { updateContactProperties, removeContactFromList, sendPreferenceUpdateEmail } from '@/lib/email/brevo'
 
 const preferencesSchema = z.object({
     topic_business_automation: z.boolean().optional(),
