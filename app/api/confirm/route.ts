@@ -16,25 +16,26 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'Confirmation token is required' }, { status: 400 })
         }
 
-        // Find subscriber by token
-        const subscriber = getSubscriberByConfirmationToken(token)
+        // Attempt to confirm the subscriber
+        const confirmResult = confirmSubscriber(token)
 
-        if (!subscriber) {
+        if (confirmResult.changes === 0) {
+            // This could mean the token is invalid OR the subscriber is already confirmed.
+            // For security and simplicity, we'll treat both as a generic "invalid token" error
+            // to prevent leaking information about which tokens are valid.
             return NextResponse.json({ error: 'Invalid or expired confirmation token' }, { status: 404 })
         }
 
-        if (subscriber.status === 'confirmed') {
-            return NextResponse.json({
-                success: true,
-                message: 'Email already confirmed',
-                alreadyConfirmed: true,
-            })
+        // Confirmation was successful, now get the subscriber's details for follow-up actions
+        const subscriber = getSubscriberByConfirmationToken(token)
+
+        // This should always find a subscriber, but we check as a safeguard.
+        if (!subscriber) {
+            console.error('CRITICAL: Subscriber confirmed but could not be found with token:', token)
+            return NextResponse.json({ error: 'An unexpected error occurred during confirmation.' }, { status: 500 })
         }
 
-        // Confirm the subscriber
-        confirmSubscriber(token)
-
-        // Get preferences for Mailjet
+        // Get preferences
         const preferences = getPreferences(subscriber.id)
 
         // Add to Mailjet for marketing

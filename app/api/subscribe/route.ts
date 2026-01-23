@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import {
-    createSubscriber,
+    addSubscriber,
     getSubscriberByEmail,
     createDefaultPreferences,
     trackEvent,
+    updateSubscriber,
 } from '@/lib/db/queries'
 import { sendConfirmationEmail } from '@/lib/email/brevo'
 
@@ -34,10 +35,20 @@ export async function POST(request: NextRequest) {
                 )
             }
             if (existing.status === 'pending') {
-                // Resend confirmation email
+                // User exists but is not confirmed. Update their data and resend confirmation.
+                updateSubscriber(existing.email, {
+                    name: validatedData.name,
+                    company: validatedData.company,
+                    role: validatedData.role,
+                    primary_interest: validatedData.primary_interest,
+                    how_heard: validatedData.how_heard,
+                    pdf_choice: validatedData.pdf_choice,
+                    source: validatedData.source,
+                });
+
                 await sendConfirmationEmail(
                     existing.email,
-                    existing.name,
+                    validatedData.name, // Use the new name
                     existing.confirmation_token
                 )
                 return NextResponse.json({
@@ -48,7 +59,14 @@ export async function POST(request: NextRequest) {
         }
 
         // Create subscriber
-        const result = createSubscriber(validatedData)
+        const result = addSubscriber(validatedData)
+
+        if (!result) {
+            return NextResponse.json(
+                { error: 'This email is already subscribed' },
+                { status: 400 }
+            )
+        }
 
         // Create default email preferences
         createDefaultPreferences(result.id as number)

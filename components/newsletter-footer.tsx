@@ -11,7 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Analytics } from "@/lib/analytics/tracker"
 
-const emailSchema = z.object({
+const footerFormSchema = z.object({
+    name: z.string().min(2, { message: "Please enter your name" }),
     email: z.string().email({ message: "Please enter a valid email" }),
 })
 
@@ -19,14 +20,15 @@ export function NewsletterFooter() {
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const form = useForm<z.infer<typeof emailSchema>>({
-        resolver: zodResolver(emailSchema),
+    const form = useForm<z.infer<typeof footerFormSchema>>({
+        resolver: zodResolver(footerFormSchema),
         defaultValues: {
+            name: "",
             email: "",
         },
     })
 
-    async function onSubmit(values: z.infer<typeof emailSchema>) {
+    async function onSubmit(values: z.infer<typeof footerFormSchema>) {
         setIsSubmitting(true)
 
         try {
@@ -35,7 +37,7 @@ export function NewsletterFooter() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: values.email,
-                    name: "Subscriber", // Default name for footer form
+                    name: values.name,
                     pdf_choice: "all",
                     source: "footer",
                 }),
@@ -84,29 +86,47 @@ export function NewsletterFooter() {
                             <Form {...form}>
                                 <form
                                     onSubmit={form.handleSubmit(onSubmit)}
-                                    className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+                                    className="max-w-md mx-auto space-y-3"
                                 >
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem className="flex-1">
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter your email"
-                                                        type="email"
-                                                        className="h-12 bg-white/5 border-white/10 text-white placeholder:text-gray-500"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                    <div className="flex flex-col sm:flex-row gap-3">
+                                        <FormField
+                                            control={form.control}
+                                            name="name"
+                                            render={({ field }) => (
+                                                <FormItem className="flex-1">
+                                                    <FormControl>
+                                                        <Input
+                                                            placeholder="Your name"
+                                                            className="h-12 bg-white/5 border-white/10 text-white placeholder:text-gray-500"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="email"
+                                            render={({ field }) => (
+                                                <FormItem className="flex-1">
+                                                    <FormControl>
+                                                        <Input
+                                                            placeholder="Enter your email"
+                                                            type="email"
+                                                            className="h-12 bg-white/5 border-white/10 text-white placeholder:text-gray-500"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
 
                                     <Button
                                         type="submit"
-                                        className="h-12 px-6 bg-[#D80000] hover:bg-[#b30000] text-white"
+                                        className="h-12 w-full px-6 bg-[#D80000] hover:bg-[#b30000] text-white"
                                         disabled={isSubmitting}
                                     >
                                         {isSubmitting ? "Subscribing..." : (

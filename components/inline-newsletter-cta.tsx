@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Analytics } from "@/lib/analytics/tracker"
 
 const formSchema = z.object({
+    name: z.string().min(2, { message: "Please enter your name" }),
     email: z.string().email({ message: "Please enter a valid email" }),
 })
 
@@ -33,7 +34,7 @@ export function InlineNewsletterCTA({
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: { email: "" },
+        defaultValues: { name: "", email: "" },
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -44,7 +45,7 @@ export function InlineNewsletterCTA({
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: values.email,
-                    name: "Friend", // Default name for inline forms
+                    name: values.name,
                     source: source,
                     pdf_choice: "all", // Default to all
                 }),
@@ -93,6 +94,14 @@ export function InlineNewsletterCTA({
                 </div>
 
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+                    <Input
+                        {...form.register("name")}
+                        placeholder="Your name"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-[#C5A059] h-12"
+                    />
+                    {form.formState.errors.name && (
+                        <p className="text-sm text-[#D80000]">{form.formState.errors.name.message}</p>
+                    )}
                     <div className="flex flex-col sm:flex-row gap-3">
                         <Input
                             {...form.register("email")}
