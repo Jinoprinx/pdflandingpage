@@ -29,7 +29,7 @@ export function addSubscriber(subscriber: Omit<NewSubscriber, 'id' | 'status' | 
             preference_token: preferenceToken,
         };
 
-        const result = stmt.get(params);
+        const result = stmt.get(params) as { id: number } | undefined;
         if (result) {
             return {
                 id: result.id,
@@ -174,7 +174,7 @@ export function getConversionStats() {
     const bySource = db.prepare(bySourceQuery).all();
 
     const totalSubscribersQuery = `SELECT COUNT(*) as count FROM subscribers WHERE status = 'confirmed'`;
-    const totalSubscribers = db.prepare(totalSubscribersQuery).get().count;
+    const totalSubscribers = (db.prepare(totalSubscribersQuery).get() as { count: number }).count;
 
     const subscribersBySourceQuery = `
         SELECT source, COUNT(*) as count
@@ -194,6 +194,6 @@ export function getConversionStats() {
 
 export function getConfirmedSubscriberCount(): number {
     const stmt = db.prepare("SELECT COUNT(*) as count FROM subscribers WHERE status = 'confirmed'");
-    const result = stmt.get();
-    return result.count;
+    const result = stmt.get() as { count: number } | undefined;
+    return result ? result.count : 0;
 }

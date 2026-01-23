@@ -16,6 +16,8 @@ export interface Subscriber {
   updated_at: string
 }
 
+export type NewSubscriber = Omit<Subscriber, 'id' | 'created_at' | 'updated_at' | 'confirmed_at'>;
+
 export interface EmailPreference {
   id: number
   subscriber_id: number
