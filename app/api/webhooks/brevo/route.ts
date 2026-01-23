@@ -42,10 +42,10 @@ export async function POST(request: NextRequest) {
         }
 
         // Track as analytics event
-        trackEvent({
+        await trackEvent({
             event_type: 'email_event', // Need to ensure schema supports this or generic string
             source: 'brevo_webhook',
-            subscriber_email: payload.email,
+            subscriber_.email: payload.email,
             metadata: {
                 event: payload.event,
                 campaign_id: payload.campaign_id,

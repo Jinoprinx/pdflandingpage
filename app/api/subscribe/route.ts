@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
         const validatedData = subscribeSchema.parse(body)
 
         // Check if email already exists
-        const existing = getSubscriberByEmail(validatedData.email)
+        const existing = await getSubscriberByEmail(validatedData.email)
         if (existing) {
             if (existing.status === 'confirmed') {
                 return NextResponse.json(
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
             }
             if (existing.status === 'pending') {
                 // User exists but is not confirmed. Update their data and resend confirmation.
-                updateSubscriber(existing.email, {
+                await updateSubscriber(existing.email, {
                     name: validatedData.name,
                     company: validatedData.company,
                     role: validatedData.role,
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Create subscriber
-        const result = addSubscriber(validatedData)
+        const result = await addSubscriber(validatedData)
 
         if (!result) {
             return NextResponse.json(
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Create default email preferences
-        createDefaultPreferences(result.id as number)
+        await createDefaultPreferences(result.id as number)
 
         // Send confirmation email via Mailgun
         const emailResult = await sendConfirmationEmail(
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Track analytics event
-        trackEvent({
+        await trackEvent({
             event_type: 'form_submit',
             source: validatedData.source,
             subscriber_email: validatedData.email,

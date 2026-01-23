@@ -26,13 +26,13 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'Token is required' }, { status: 400 })
         }
 
-        const subscriber = getSubscriberByPreferenceToken(token)
+        const subscriber = await getSubscriberByPreferenceToken(token)
 
         if (!subscriber) {
             return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
         }
 
-        const prefs = getPreferences(subscriber.id)
+        const prefs = await getPreferences(subscriber.id)
 
         return NextResponse.json({
             success: true,
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         }
 
         const validatedPrefs = preferencesSchema.parse(preferences)
-        const subscriber = getSubscriberByPreferenceToken(token)
+        const subscriber = await getSubscriberByPreferenceToken(token)
 
         if (!subscriber) {
             return NextResponse.json({ error: 'Invalid token' }, { status: 404 })
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 
         // Handle unsubscribe
         if (validatedPrefs.unsubscribe) {
-            unsubscribeSubscriber(subscriber.email)
+            await unsubscribeSubscriber(subscriber.email)
             await removeContactFromList(subscriber.email)
             return NextResponse.json({
                 success: true,
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Update preferences in database
-        updatePreferences(subscriber.id, validatedPrefs)
+        await updatePreferences(subscriber.id, validatedPrefs)
 
         // Update Mailjet contact properties
         await updateContactProperties(subscriber.email, {

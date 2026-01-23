@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         const body = await request.json()
         const validatedData = trackEventSchema.parse(body)
 
-        trackEvent(validatedData)
+        await trackEvent(validatedData)
 
         return NextResponse.json({ success: true })
     } catch (error) {
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 // Get conversion statistics
 export async function GET() {
     try {
-        const stats = getConversionStats()
+        const stats = await getConversionStats()
         return NextResponse.json(stats)
     } catch (error) {
         console.error('Get stats error:', error)

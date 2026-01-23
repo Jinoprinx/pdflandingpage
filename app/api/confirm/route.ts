@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Attempt to confirm the subscriber
-        const confirmResult = confirmSubscriber(token)
+        const confirmResult = await confirmSubscriber(token)
 
         if (confirmResult.changes === 0) {
             // This could mean the token is invalid OR the subscriber is already confirmed.
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Confirmation was successful, now get the subscriber's details for follow-up actions
-        const subscriber = getSubscriberByConfirmationToken(token)
+        const subscriber = await getSubscriberByConfirmationToken(token)
 
         // This should always find a subscriber, but we check as a safeguard.
         if (!subscriber) {
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Get preferences
-        const preferences = getPreferences(subscriber.id)
+        const preferences = await getPreferences(subscriber.id)
 
         // Add to Mailjet for marketing
         await addContactToList(subscriber.email, {
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
         )
 
         // Track conversion
-        trackEvent({
+        await trackEvent({
             event_type: 'conversion',
             source: subscriber.source,
             subscriber_email: subscriber.email,
