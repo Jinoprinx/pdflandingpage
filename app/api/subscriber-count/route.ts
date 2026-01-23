@@ -3,7 +3,7 @@ import { getConfirmedSubscriberCount } from '@/lib/db/queries'
 
 export async function GET() {
     try {
-        const count = getConfirmedSubscriberCount()
+        const count = await getConfirmedSubscriberCount()
 
         return NextResponse.json({
             success: true,
